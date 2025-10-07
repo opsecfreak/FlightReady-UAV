@@ -1,10 +1,40 @@
 // This is your Prisma schema file,
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
+  id        String      @id @default(cuid())
+  email     String      @unique
   password  String
-  createdAt DateTime @default(now())
+  createdAt DateTime    @default(now())
+  equipment Equipment[] // User's drones and other equipment
+  flights   Flight[]    // User's flight logs
+}
+
+model Equipment {
+  id          String   @id @default(cuid())
+  name        String
+  type        String   // drone, controller, etc.
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  flights     Flight[] // Flights this equipment was used in
+  createdAt   DateTime @default(now())
+}
+
+model Flight {
+  id               String     @id @default(cuid())
+  userId           String
+  user             User       @relation(fields: [userId], references: [id])
+  equipmentId      String
+  equipment        Equipment  @relation(fields: [equipmentId], references: [id])
+  batteryVoltage   Float
+  satellitesCount  Int
+  takeoffTime      DateTime
+  landingTime      DateTime?
+  weatherCondition String
+  flightPlanUrl    String?    // URL to stored KML/flight plan
+  briefingPdfUrl   String?    // URL to stored PDF briefing
+  notes            String?    // Additional flight notes
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
 }
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
