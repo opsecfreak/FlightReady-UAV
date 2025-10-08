@@ -1,14 +1,18 @@
-import { useState } from "react";
+"use client";
+
+import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+
+import { useAuth } from "@/lib/auth/AuthContext";
 
 export default function SignInPage() {
   const [email, setEmail] = useState("");
   const router = useRouter();
+  const { login } = useAuth();
 
-  function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    // Placeholder: Save email to localStorage or context
-    localStorage.setItem("userEmail", email);
+    login(email);
     router.push("/dashboard");
   }
 
