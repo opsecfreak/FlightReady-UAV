@@ -11,7 +11,7 @@
 | --- | --- | --- | --- |
 | Authentication | `AuthProvider` was never mounted in the root layout, so every call to `useAuth` throws at runtime. | 🔴 Blocks all pages that rely on authentication state. | Wrap the app in `AuthProvider` (fixed in this PR). |
 | Sign-in Route | `/signin` page used React hooks without marking the component as a client component and wrote credentials to `localStorage`. | 🔴 Hard runtime error plus insecure storage pattern. | Convert the route to a client component and delegate to the shared auth context (fixed in this PR). |
-| Tooling | `npm run lint` fails because no lint script is defined. | 🟠 Developers cannot run static analysis locally/CI. | Add ESLint configuration and wire `lint` & `typecheck` scripts. |
+| Tooling | `npm run lint` fails because no lint script is defined. | 🟠 Developers cannot run static analysis locally/CI. | Add ESLint configuration and wire `lint` & `typecheck` scripts. *(Fixed in this PR.)* |
 | Security | `src/lib/betterAuth.ts` is a stub with empty JWT helpers. | 🟠 No token verification; future code might rely on non-existent security. | Either implement JWT handling or remove until ready. |
 | Data Modeling | Components store `Date` instances in client state and assume `toLocaleDateString` exists. | 🟡 Serialising through APIs will turn dates into strings, breaking UI. | Store ISO strings in state and normalise formatting utilities. |
 
